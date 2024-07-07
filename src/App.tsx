@@ -122,9 +122,13 @@ function App() {
       <div className="h-screen flex flex-row dark:bg-[#2f2f2f]">
         <Sidebar onChatClick={handleChatClick} />
         <div
-          className={`flex-1 flex flex-col dark:bg-dark-pattern bg-light-pattern bg-contain  overflow-y-auto ${
-            !sideBar ? "sm:hidden hidden md:block lg:block xl:block" : ""
-          }`}
+          className={`flex-1 flex flex-col 
+            
+             dark:bg-[url('./assets/bg.png')] bg-[url('./assets/light.png')]
+            
+            bg-contain  overflow-y-auto ${
+              !sideBar ? "sm:hidden hidden md:block lg:block xl:block" : ""
+            }`}
         >
           {/* Navbar */}
           {!selectedChat && (
