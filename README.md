@@ -1,42 +1,59 @@
+# [Telegram UI Clone](https://telegram-ui-clone.vercel.app)
 
-# Telegram UI clone
+## Live Demo
 
-A simple Telegram UI clone built using react-ts , vite and tailwindcss
+Check out the live website: [Telegram UI Clone](https://telegram-ui-clone.vercel.app)
 
-## 🚀 Built With
-<a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=react,tailwindcss,vite,ts" />
-  </a>
-</p>
+## Overview
 
+This project is a clone of the Telegram user interface, built using React, Tailwind CSS, and REST API fetching. The application features a chat list and chat message functionality, providing a seamless user experience similar to the original Telegram application.
 
-## ⚙ Installation
+## Features
 
-Make sure you have nodejs installed 
+- **React**: The core framework used to build the user interface, ensuring efficient and dynamic rendering of components.
+- **Tailwind CSS**: A utility-first CSS framework that provides a highly customizable styling system.
+- **REST API Fetching**: Utilized to fetch chat lists and chat messages, allowing for real-time data updates and interactions.
 
-1- clone project
+## Project Structure
 
-```bash
-  $ git clone https://github.com/rayen-creator/telegram_UI_clone.git
-```
+- **src/components**: Contains the React components used in the application.
+- **src/assets**: Holds static assets like images.
+- **src/App.tsx**: The main application component where the chat list and chat message functionalities are implemented.
 
-2- Install npm packages
+## Installation and Setup
 
-```bash
-  $ cd telegram_UI_clone
-  $ npm install 
-```
+1. **Clone the repository:**
 
-    
-## 🕹 Usage
+   ```bash
+   git clone https://github.com/your-username/telegram-ui-clone.git
+   ```
 
-Run project using vite
-```javascript
-$ npm run dev
-```
+2. **Navigate to the project directory:**
 
+   ```bash
+   cd telegram-ui-clone
+   ```
 
-## 🖥 Demo
-The app is deployed on [netlify](https://telegramuiclone.netlify.app/) 
-![image](https://github.com/rayen-creator/telegram_UI_clone/assets/57809239/dc3473e2-0f40-4a27-bfdf-f8dcd7fc3c5e)
+3. **Install dependencies:**
 
+   ```bash
+   npm install
+   ```
+
+4. **Start the development server:**
+   ```bash
+   npm start
+   ```
+
+## Contributing
+
+Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Acknowledgments
+
+Inspired by the Telegram web application.
+Thanks to the developers of React, Tailwind CSS, and other libraries used in this project.
