@@ -9,7 +9,10 @@ import {
   FaMicrophone,
   FaSmile,
 } from "react-icons/fa";
-
+import { IoMdArrowBack } from "react-icons/io";
+import { ThemeProvider } from "./contexts/theme";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import sidebarAtom from "./atoms/uiAtoms";
 interface Message {
   id: number;
   sender: {
@@ -24,15 +27,35 @@ function App() {
   const [selectedChat, setSelectedChat] = useState<number | null>(null); // State to hold selected chat message
   const [selectedUserName, setSelectedUserName] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
-  const [darkMode, setDarkMode] = useState<boolean>(true);
   const messagesEndRef = useRef(null);
+  const sideBar = useRecoilValue(sidebarAtom);
+  const setSidebar = useSetRecoilState(sidebarAtom);
 
-  const handleToggleDarkMode = () => {
-    console.log("Toggling dark mode");
-    setDarkMode((prevMode) => !prevMode);
+  const handleClick = () => {
+    setSidebar(false);
   };
 
-  console.log(darkMode);
+  // DARK MODE / LIGHT MODE
+  const [themeMode, setThemeMode] = useState("dark");
+
+  const lightTheme = () => {
+    setThemeMode("light");
+  };
+
+  const darkTheme = () => {
+    setThemeMode("dark");
+  };
+
+  useEffect(() => {
+    //@ts-ignore
+
+    document.querySelector("html").classList.remove("light", "dark");
+    //@ts-ignore
+
+    document.querySelector("html").classList.add(themeMode);
+  }, [themeMode]);
+
+  //
 
   const fetchMessages = async (chatId: number) => {
     try {
@@ -95,28 +118,41 @@ function App() {
   };
 
   return (
-    <>
-      <div className="h-screen flex flex-row">
-        <Sidebar
-          onChatClick={handleChatClick}
-          onToggleDarkMode={handleToggleDarkMode}
-        />
-        <div className="flex-1 flex flex-col bgDark bg-contain overflow-y-auto">
+    <ThemeProvider value={{ themeMode, lightTheme, darkTheme }}>
+      <div className="h-screen flex flex-row dark:bg-[#2f2f2f]">
+        <Sidebar onChatClick={handleChatClick} />
+        <div
+          className={`flex-1 flex flex-col dark:bg-[url('./assets/bg.png')] bgLight bg-contain  overflow-y-auto ${
+            !sideBar ? "sm:hidden hidden md:block lg:block xl:block" : ""
+          }`}
+        >
           {/* Navbar */}
+          {!selectedChat && (
+            <div className="flex justify-center items-center h-screen dark:text-white">
+              <p className=" p-2 rounded-lg backdrop-blur-md dark:bg-zinc-900 bg-zinc-900/10">
+                Select a chat to start messaging
+              </p>
+            </div>
+          )}
 
           {selectedChat && (
-            <div className="flex items-center justify-between p-4 bg-[#333333] sticky top-0 z-10">
+            <div className="flex items-center justify-between p-4 dark:bg-[#333333] bg-white sticky top-0 z-10">
               <div className="flex items-center">
+                <IoMdArrowBack
+                  onClick={handleClick}
+                  size={25}
+                  className="dark:text-white mr-4 md:hidden block sm:block"
+                />
                 <img
                   src={"https://avatar.iran.liara.run/public"}
                   alt="Profile"
                   className="w-10 h-10 rounded-full mr-2"
                 />
-                <span className="text-white">
+                <span className="dark:text-white font-medium">
                   {selectedUserName || "Unknown"}
                 </span>
               </div>
-              <div className="flex space-x-4 text-white">
+              <div className="flex space-x-4 dark:text-white">
                 <FaSearch />
                 <FaPhoneAlt />
                 <FaEllipsisV />
@@ -130,7 +166,7 @@ function App() {
               <div
                 key={msg.id}
                 id={`message-${msg.id}`}
-                className={`p-2 mb-2 shadow-md rounded-md ${
+                className={`p-2 mb-2  rounded-md ${
                   msg.sender.id === 1
                     ? "flex justify-end"
                     : "flex justify-start"
@@ -138,11 +174,13 @@ function App() {
               >
                 <div
                   className={`p-2 flex rounded-md ${
-                    msg.sender.id === 1 ? "bg-green-200" : "bg-white"
+                    msg.sender.id === 1
+                      ? "bg-green-200 dark:bg-[#836FE6]"
+                      : "bg-[#f1f0f0] dark:bg-[#2a2a2a]"
                   }`}
                 >
-                  <p>{msg.message}</p>
-                  <p className="text-xs pt-2 pl-2 text-gray-500">
+                  <p className="dark:text-[#ffffff]">{msg.message}</p>
+                  <p className="text-xs pt-2 pl-2 text-gray-500 dark:text-slate-300">
                     {formatTime(msg.created_at)}
                   </p>
                 </div>
@@ -152,20 +190,32 @@ function App() {
           </div>
           {/*  */}
 
-          <div className="flex  items-center p-2 bg-[#333333] sticky bottom-0 z-10">
-            <FaPaperclip size={20} className="text-white mr-4" />
-            <input
-              type="text"
-              placeholder="Write a message"
-              className="flex-1 p-2 rounded-full bg-[#333333] text-white outline-none"
-            />
-            <FaMicrophone size={20} className="text-white ml-4 mr-2" />
-            <FaSmile size={20} className="text-white mr-4 " />
-          </div>
+          {selectedChat && (
+            <div className="flex  items-center p-2 bg-white dark:bg-[#333333]  sticky bottom-0 z-10">
+              <FaPaperclip
+                size={20}
+                className="dark:text-white text-gray-500 mr-4"
+              />
+              <input
+                type="text"
+                placeholder="Write a message"
+                className="flex-1 p-2 rounded-full dark:bg-[#333333] dark:text-white outline-none"
+              />
+              <FaMicrophone
+                size={20}
+                className="dark:text-white text-gray-500 ml-4 mr-2"
+              />
+              <FaSmile
+                size={20}
+                className="dark:text-white text-gray-500 mr-4 "
+              />
+            </div>
+          )}
+
           {/*  */}
         </div>
       </div>
-    </>
+    </ThemeProvider>
   );
 }
 

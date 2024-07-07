@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { GrFormPreviousLink, GrFormNextLink } from "react-icons/gr";
 import { format, isThisWeek, isToday, parseISO } from "date-fns";
 import Loading from "./Loading";
+import sidebarAtom from "../atoms/uiAtoms";
+import { useSetRecoilState } from "recoil";
 
 interface MessageListProps {
   onChatClick: (chatId: number) => void;
@@ -58,6 +60,10 @@ const formatTime = (dateString: string) => {
 
 const Messagelist: React.FC<MessageListProps> = ({ onChatClick }) => {
   const [page, setPage] = useState(1);
+  const setSidebar = useSetRecoilState(sidebarAtom);
+  const handleClick = () => {
+    setSidebar(true);
+  };
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["chatList", page],
@@ -82,23 +88,23 @@ const Messagelist: React.FC<MessageListProps> = ({ onChatClick }) => {
     );
   }
 
-  const lastPage = data.last_page; // Assuming the API returns the total number of pages
+  const lastPage = data.last_page;
 
   return (
     <div>
       <div className="flex justify-center items-center gap-2 mt-5">
         <button
-          className="border p-2 text-white rounded-md cursor-pointer disabled:cursor-not-allowed"
+          className="border p-2 dark:text-white rounded-md cursor-pointer disabled:cursor-not-allowed"
           onClick={() => setPage((old) => Math.max(old - 1, 1))}
           disabled={!data.prev_page_url}
         >
           <GrFormPreviousLink />
         </button>
-        <div className="border p-2 text-white rounded-md">
+        <div className="border p-2 dark:text-white rounded-md">
           {page} / {lastPage}
         </div>
         <button
-          className="border p-2 text-white rounded-md cursor-pointer disabled:cursor-not-allowed"
+          className="border p-2 dark:text-white rounded-md cursor-pointer disabled:cursor-not-allowed"
           onClick={() => {
             if (data.next_page_url) {
               setPage((old) => old + 1);
@@ -109,7 +115,7 @@ const Messagelist: React.FC<MessageListProps> = ({ onChatClick }) => {
           <GrFormNextLink />
         </button>
       </div>
-      <div>
+      <div onClick={handleClick}>
         {data.data.map((chat: any) => (
           <div
             key={chat.id}
@@ -122,12 +128,12 @@ const Messagelist: React.FC<MessageListProps> = ({ onChatClick }) => {
               className="rounded-full w-12 h-12"
             />
             <div className="flex flex-col flex-1 px-4">
-              <div className="text-lg font-bold  text-white md:block">
+              <div className="text-lg font-medium dark:text-white md:block">
                 {chat.creator.name || "Unknown"}
               </div>
               <div className="text-md font-medium text-primary  md:block">
                 {chat.lastMessage?.message
-                  ? `${chat.lastMessage.message.substring(0, 50)}...`
+                  ? `${chat.lastMessage.message.substring(0, 30)}...`
                   : "No message"}
               </div>
             </div>
@@ -138,7 +144,7 @@ const Messagelist: React.FC<MessageListProps> = ({ onChatClick }) => {
                   : "No last message time"}
               </div>
               <div className="flex justify-end py-1">
-                <span className="bg-slate-600 rounded-xl px-2 text-white">
+                <span className="bg-sky-500 dark:bg-sky-500 rounded-xl px-2 text-white">
                   {chat.msg_count || 0}
                 </span>
               </div>

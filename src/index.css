@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.bgDark {
-  background-image: url(./assets/bg.png);
+.bgLight {
+  background-image: url(./light.png);
 }
 
 .loader {
@@ -23,4 +23,8 @@
   to {
     transform: rotate(1turn);
   }
+}
+
+.sent-message-dark {
+  background: linear-gradient(135deg, #42275a, #734b6d);
 }

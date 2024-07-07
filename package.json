@@ -15,7 +15,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
-    "react-loader-spinner": "^6.1.6"
+    "react-loader-spinner": "^6.1.6",
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
