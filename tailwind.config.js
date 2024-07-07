@@ -9,6 +9,10 @@ export default {
         // dark_theme: "#2f2f2f",
         primary: "#8C8C8C",
       },
+      backgroundImage: (theme) => ({
+        "light-pattern": "url('./light.png')",
+        "dark-pattern": "url('./assets/bg.png')",
+      }),
     },
   },
   plugins: [],
